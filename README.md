@@ -1,30 +1,33 @@
 # Synthetix Transcript Downloader
 
-![GitHub repo size](https://img.shields.io/github/repo-size/YourUsername/Synthetix-Transcript-Downloader)
-![GitHub contributors](https://img.shields.io/github/contributors/YourUsername/Synthetix-Transcript-Downloader)
-![GitHub stars](https://img.shields.io/github/stars/YourUsername/Synthetix-Transcript-Downloader?style=social)
-![GitHub forks](https://img.shields.io/github/forks/YourUsername/Synthetix-Transcript-Downloader?style=social)
+Synthetix Transcript Downloader is a simple application that allows you to fetch and save chat transcripts from the Synthetix platform.
 
-The Synthetix Transcript Downloader is a private project designed to automate the retrieval and saving of chat transcripts from the Synthetix platform.
+## Installation
 
-## Features
+You can install the application by following these steps:
 
-- Log in to the Synthetix platform using API credentials.
-- Fetch chat IDs within a specified date range.
-- Download chat transcripts for each chat ID and save them as JSON files.
-- Configurable settings for API credentials and output path.
+1. Download the installation file from the [Installer](Installer/setup.exe) directory.
+2. Run the setup.exe file.
+3. Follow the on-screen instructions to complete the installation process.
 
-## Getting Started
+## Usage
 
-### Prerequisites
+1. Launch the Synthetix Transcript Downloader application.
+2. Enter your Synthetix credentials and API keys in the Settings tab.
+3. Click the "Save" button to save your settings.
+4. Click the "Login & Get Transcripts" button to log in and fetch the chat IDs.
+5. The chat IDs will be displayed in the log window.
+6. The application will automatically download and save the transcripts for each chat ID.
+7. The saved transcripts will be stored in the specified output path.
 
-- .NET Framework [version]
-- Visual Studio [version] (for development)
-- Git (optional)
+## Configuration
 
-### Installation
+The application uses a settings file (settings.json) to store your configuration. You can find this file in the same directory as the executable. You can modify the settings directly by opening the file in a text editor.
 
-1. Clone the repository:
+## Contributing
 
-   ```shell
-   git clone https://github.com/YourUsername/Synthetix-Transcript-Downloader.git
+Contributions are welcome! If you have any bug reports, feature requests, or code improvements, feel free to open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the [MIT License](./LICENSE).
