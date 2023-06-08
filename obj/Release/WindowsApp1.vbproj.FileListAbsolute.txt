@@ -1,0 +1,60 @@
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\bin\Release\Newtonsoft.Json.dll
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\bin\Release\System.Text.Json.dll
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\bin\Release\System.Text.Encodings.Web.dll
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\bin\Release\System.ValueTuple.dll
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\bin\Release\System.Numerics.Vectors.dll
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\bin\Release\System.Threading.Tasks.Extensions.dll
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\bin\Release\Microsoft.Bcl.AsyncInterfaces.dll
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\bin\Release\System.Buffers.dll
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\bin\Release\Newtonsoft.Json.xml
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\obj\Release\WindowsApp1.vbproj.AssemblyReference.cache
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\obj\Release\WindowsApp1.vbproj.SuggestedBindingRedirects.cache
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\obj\Release\WindowsApp1.vbproj.GenerateResource.cache
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\obj\Release\WindowsApp1.vbproj.CoreCompileInputs.cache
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\obj\Release\WindowsApp1.vbproj.CopyComplete
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\obj\Release\Synthetix Transcript Downloader.exe.config
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\obj\Release\Synthetix.DebugWindow.resources
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\obj\Release\Synthetix.Form1.resources
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\obj\Release\Synthetix.Resources.resources
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\bin\Release\Synthetix Transcript Downloader.exe.config
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\bin\Release\Synthetix Transcript Downloader.exe.manifest
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\bin\Release\Synthetix Transcript Downloader.application
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\bin\Release\Synthetix Transcript Downloader.exe
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\bin\Release\Synthetix Transcript Downloader.pdb
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\bin\Release\Synthetix Transcript Downloader.xml
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\obj\Release\Synthetix Transcript Downloader.exe.manifest
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\obj\Release\Synthetix Transcript Downloader.application
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\obj\Release\Synthetix Transcript Downloader.exe
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\obj\Release\Synthetix Transcript Downloader.xml
+P:\GitWarehouse\TranscriptDownloader\WindowsApp1\obj\Release\Synthetix Transcript Downloader.pdb
+P:\GitWarehouse\Synthetix-Transcript-Downloader\bin\Release\Synthetix Transcript Downloader.exe.config
+P:\GitWarehouse\Synthetix-Transcript-Downloader\bin\Release\Synthetix Transcript Downloader.exe.manifest
+P:\GitWarehouse\Synthetix-Transcript-Downloader\bin\Release\Synthetix Transcript Downloader.application
+P:\GitWarehouse\Synthetix-Transcript-Downloader\bin\Release\Synthetix Transcript Downloader.exe
+P:\GitWarehouse\Synthetix-Transcript-Downloader\bin\Release\Synthetix Transcript Downloader.pdb
+P:\GitWarehouse\Synthetix-Transcript-Downloader\bin\Release\Synthetix Transcript Downloader.xml
+P:\GitWarehouse\Synthetix-Transcript-Downloader\bin\Release\Newtonsoft.Json.dll
+P:\GitWarehouse\Synthetix-Transcript-Downloader\bin\Release\System.Text.Json.dll
+P:\GitWarehouse\Synthetix-Transcript-Downloader\bin\Release\System.Text.Encodings.Web.dll
+P:\GitWarehouse\Synthetix-Transcript-Downloader\bin\Release\System.ValueTuple.dll
+P:\GitWarehouse\Synthetix-Transcript-Downloader\bin\Release\System.Numerics.Vectors.dll
+P:\GitWarehouse\Synthetix-Transcript-Downloader\bin\Release\System.Threading.Tasks.Extensions.dll
+P:\GitWarehouse\Synthetix-Transcript-Downloader\bin\Release\Microsoft.Bcl.AsyncInterfaces.dll
+P:\GitWarehouse\Synthetix-Transcript-Downloader\bin\Release\System.Buffers.dll
+P:\GitWarehouse\Synthetix-Transcript-Downloader\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+P:\GitWarehouse\Synthetix-Transcript-Downloader\bin\Release\Newtonsoft.Json.xml
+P:\GitWarehouse\Synthetix-Transcript-Downloader\obj\Release\WindowsApp1.vbproj.AssemblyReference.cache
+P:\GitWarehouse\Synthetix-Transcript-Downloader\obj\Release\WindowsApp1.vbproj.SuggestedBindingRedirects.cache
+P:\GitWarehouse\Synthetix-Transcript-Downloader\obj\Release\Synthetix Transcript Downloader.exe.config
+P:\GitWarehouse\Synthetix-Transcript-Downloader\obj\Release\Synthetix.DebugWindow.resources
+P:\GitWarehouse\Synthetix-Transcript-Downloader\obj\Release\Synthetix.Form1.resources
+P:\GitWarehouse\Synthetix-Transcript-Downloader\obj\Release\Synthetix.Resources.resources
+P:\GitWarehouse\Synthetix-Transcript-Downloader\obj\Release\WindowsApp1.vbproj.GenerateResource.cache
+P:\GitWarehouse\Synthetix-Transcript-Downloader\obj\Release\WindowsApp1.vbproj.CoreCompileInputs.cache
+P:\GitWarehouse\Synthetix-Transcript-Downloader\obj\Release\Synthetix Transcript Downloader.exe.manifest
+P:\GitWarehouse\Synthetix-Transcript-Downloader\obj\Release\Synthetix Transcript Downloader.application
+P:\GitWarehouse\Synthetix-Transcript-Downloader\obj\Release\WindowsApp1.vbproj.CopyComplete
+P:\GitWarehouse\Synthetix-Transcript-Downloader\obj\Release\Synthetix Transcript Downloader.exe
+P:\GitWarehouse\Synthetix-Transcript-Downloader\obj\Release\Synthetix Transcript Downloader.xml
+P:\GitWarehouse\Synthetix-Transcript-Downloader\obj\Release\Synthetix Transcript Downloader.pdb
