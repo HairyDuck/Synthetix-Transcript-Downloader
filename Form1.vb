@@ -1,9 +1,6 @@
 ﻿Imports System.IO
 Imports System.Net.Http
-Imports System.Runtime
-Imports System.Text.Json
 Imports Newtonsoft.Json
-Imports WindowsApp1.My
 
 Public Class Form1
     Private httpClient As HttpClient
