@@ -1,5 +1,7 @@
 # Synthetix Transcript Downloader
 
+https://chat.openai.com/c/bdd6d1e5-19bb-4865-87a6-99bad9388c2f
+
 Synthetix Transcript Downloader is a simple application that allows you to fetch and save chat transcripts from the Synthetix platform.
 
 ## Installation
