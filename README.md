@@ -17,10 +17,11 @@ You can install the application by following these steps:
 1. Launch the Synthetix Transcript Downloader application.
 2. Enter your Synthetix credentials and API keys in the Settings tab. (Note that you should use a service account otherwise, you will need to login on the console first to avoid MFA. Speak to your account manager about getting a service account)
 3. Click the "Save" button to save your settings.
-4. Click the "Login & Get Transcripts" button to log in and fetch the chat IDs.
-5. The chat IDs will be displayed in the log window.
-6. The application will automatically download and save the transcripts for each chat ID.
-7. The saved transcripts will be stored in the specified output path.
+4. Go back to the Main tab and select the date range you wish to capture date from.
+5. Click the "Get Transcripts" button to log in and fetch the chat IDs.
+6. The chat IDs will be displayed in the log window.
+7. The application will automatically download and save the transcripts for each chat ID.
+8. The saved transcripts will be stored in the specified output path.
 
 ![Settings Window](./Screenshots/settings.png)
 
