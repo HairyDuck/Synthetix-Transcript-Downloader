@@ -60,6 +60,12 @@ Please note that the provided code in this repository serves as a reference impl
 
 Before using the Synthetix API for your own application, you need to acquire the necessary application and consumer keys from your Synthetix account manager. Additionally, please note that your application will be subject to approval by Synthetix staff. During the development and testing phase, it is recommended to use the Staging environment. Once your application is approved, you can switch to the production environment.
 
+For more information about the Synthetix API, you can refer to the [Synthetix API Documentation](https://api.synthetix.com/).
+
+## Note
+
+Before using the Synthetix API for your own application, you need to acquire the necessary application and consumer keys from your Synthetix account manager. Additionally, please note that your application will be subject to approval by Synthetix staff. During the development and testing phase, it is recommended to use the Staging environment. Once your application is approved, you can switch to the production environment.
+
 
 ## License
 
