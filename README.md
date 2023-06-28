@@ -2,6 +2,8 @@
 
 Synthetix Transcript Downloader is an unofficial application that allows you to fetch and save chat transcripts from the Synthetix platform.
 
+![Main Window](./Screenshots/main.png)
+
 ## Installation
 
 You can install the application by following these steps:
@@ -19,6 +21,8 @@ You can install the application by following these steps:
 5. The chat IDs will be displayed in the log window.
 6. The application will automatically download and save the transcripts for each chat ID.
 7. The saved transcripts will be stored in the specified output path.
+
+![Settings Window](./Screenshots/settings.png)
 
 ## Configuration
 
