@@ -43,12 +43,12 @@ This application is not affiliated with or endorsed by Synthetix. It is an unoff
 If you want to develop your own application or integrate the functionality of Synthetix Transcript Downloader into your existing project, you can follow this flow to understand the logic behind the process:
 
 1. Establish an HTTP client to communicate with the Synthetix API.
-2. Implement the login functionality by sending a POST request to the login endpoint (`https://api.synthetix.com/2.0/internal/profile`) [🔗](https://documenter.getpostman.com/view/398027/2s93sf1qZM#43583361-35e3-40d4-98da-8fe062f38ca1) with the necessary headers and form data (`usrname` and `passwd`).
+2. Implement the login functionality by sending a POST request to the login endpoint (`https://api.synthetix.com/2.0/internal/profile`) [📖](https://documenter.getpostman.com/view/398027/2s93sf1qZM#43583361-35e3-40d4-98da-8fe062f38ca1) with the necessary headers and form data (`usrname` and `passwd`).
 3. Upon successful login, retrieve the bearer token from the response.
 4. Use the obtained bearer token and required headers (`APPLICATIONKEY` and `CONSUMERKEY`) to authenticate subsequent API requests.
-5. Send a GET request to the chat IDs endpoint (`https://api.synthetix.com/2.0/internal/chatids`) [🔗](https://documenter.getpostman.com/view/398027/2s93sf1qZM#8cb1c14f-5e82-43e1-b972-e77b2c7ef323) with the desired parameters, such as start and end dates, to fetch the chat IDs.
+5. Send a GET request to the chat IDs endpoint (`https://api.synthetix.com/2.0/internal/chatids`) [📖](https://documenter.getpostman.com/view/398027/2s93sf1qZM#8cb1c14f-5e82-43e1-b972-e77b2c7ef323) with the desired parameters, such as start and end dates, to fetch the chat IDs.
 6. Process the response to obtain the list of chat IDs.
-7. For each chat ID, send a POST request to the details endpoint (`https://api.synthetix.com/2.0/livechat/details`) [🔗](https://documenter.getpostman.com/view/398027/2s93sf1qZM#a5588311-97ba-437f-9aac-d8d196a96072) with the chat ID in the request payload to retrieve the chat details.
+7. For each chat ID, send a POST request to the details endpoint (`https://api.synthetix.com/2.0/livechat/details`) [📖](https://documenter.getpostman.com/view/398027/2s93sf1qZM#a5588311-97ba-437f-9aac-d8d196a96072) with the chat ID in the request payload to retrieve the chat details.
 8. Handle the response and save the chat details, such as the JSON response, to the desired location.
 9. Repeat the process for each chat ID retrieved in step 6.
 
