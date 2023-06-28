@@ -1,3 +1,4 @@
+
 # Synthetix Transcript Downloader (Unofficial)
 
 Synthetix Transcript Downloader is an unofficial application that allows you to fetch and save chat transcripts from the Synthetix platform.
@@ -59,7 +60,7 @@ For more information about the Synthetix API, you can refer to the [Synthetix AP
 
 ## Disclaimer and Terms of Service
 
-This application is not affiliated with or endorsed by Synthetix. It is an unofficial tool developed by [HairyDuck] for personal use.
+This application is not affiliated with or endorsed by Synthetix. It is an unofficial tool developed by [HairyDuck](https://github.com/HairyDuck) for personal use.
 
 **Disclaimer:**
 This application is provided as-is with no warranty, express or implied. The developers of this application are not responsible for any damages or losses incurred while using the application.
