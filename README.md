@@ -1,4 +1,3 @@
-
 # Synthetix Transcript Downloader (Unofficial)
 
 Synthetix Transcript Downloader is an unofficial application that allows you to fetch and save chat transcripts from the Synthetix platform.
@@ -18,7 +17,7 @@ You can install the application by following these steps:
 1. Launch the Synthetix Transcript Downloader application.
 2. Enter your Synthetix credentials and API keys in the Settings tab. (Note that you should use a service account otherwise, you will need to login on the console first to avoid MFA. Speak to your account manager about getting a service account)
 3. Click the "Save" button to save your settings.
-4. Go back to the Main tab and select the date range you wish to capture date from.
+4. Go back to the Main tab and select the date range you wish to capture data from.
 5. Click the "Get Transcripts" button to log in and fetch the chat IDs.
 6. The chat IDs will be displayed in the log window.
 7. The application will automatically download and save the transcripts for each chat ID.
@@ -33,10 +32,6 @@ The application uses a settings file (settings.json) to store your configuration
 ## Contributing
 
 Contributions are welcome! If you have any bug reports, feature requests, or code improvements, feel free to open an issue or submit a pull request.
-
-## Disclaimer
-
-This application is not affiliated with or endorsed by Synthetix. It is an unofficial tool developed by [HairyDuck] for personal use.
 
 ## Writing Your Own Application
 
@@ -61,6 +56,20 @@ Please note that the provided code in this repository serves as a reference impl
 Before using the Synthetix API for your own application, you need to acquire the necessary application and consumer keys from your Synthetix account manager. Additionally, please note that your application will be subject to approval by Synthetix staff. During the development and testing phase, it is recommended to use the Staging environment. Once your application is approved, you can switch to the production environment.
 
 For more information about the Synthetix API, you can refer to the [Synthetix API Documentation](https://api.synthetix.com/).
+
+## Disclaimer and Terms of Service
+
+This application is not affiliated with or endorsed by Synthetix. It is an unofficial tool developed by [HairyDuck] for personal use.
+
+**Disclaimer:**
+This application is provided as-is with no warranty, express or implied. The developers of this application are not responsible for any damages or losses incurred while using the application.
+
+**Terms of Service:**
+By using this application, you agree to the following terms:
+- You acknowledge that this is an unofficial application and not affiliated with or endorsed by Synthetix.
+- You will use this application at your own risk and responsibility.
+- The developers of this application shall not be held liable for any actions, damages, or consequences resulting from the use of this application.
+- You will comply with all applicable laws and regulations while using this application.
 
 ## License
 
