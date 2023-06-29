@@ -39,12 +39,12 @@ Contributions are welcome! If you have any bug reports, feature requests, or cod
 If you want to develop your own application or integrate the functionality of Synthetix Transcript Downloader into your existing project, you can follow this flow to understand the logic behind the process:
 
 1. Establish an HTTP client to communicate with the Synthetix API.
-2. Implement the login functionality by sending a POST request to the login endpoint (`https://api.synthetix.com/2.0/internal/profile`) [📖](https://documenter.getpostman.com/view/398027/2s93sf1qZM#43583361-35e3-40d4-98da-8fe062f38ca1) with the necessary headers and form data (`usrname` and `passwd`).
+2. Implement the login functionality by sending a POST request to the login endpoint (`https://api.synthetix.com/2.0/internal/profile`) [📖](https://documentation.synthetix.com/#43583361-35e3-40d4-98da-8fe062f38ca1) with the necessary headers and form data (`usrname` and `passwd`).
 3. Upon successful login, retrieve the bearer token from the response.
 4. Use the obtained bearer token and required headers (`APPLICATIONKEY` and `CONSUMERKEY`) to authenticate subsequent API requests.
-5. Send a GET request to the chat IDs endpoint (`https://api.synthetix.com/2.0/internal/chatids`) [📖](https://documenter.getpostman.com/view/398027/2s93sf1qZM#8cb1c14f-5e82-43e1-b972-e77b2c7ef323) with the desired parameters, such as start and end dates, to fetch the chat IDs.
+5. Send a GET request to the chat IDs endpoint (`https://api.synthetix.com/2.0/internal/chatids`) [📖](https://documentation.synthetix.com/#8cb1c14f-5e82-43e1-b972-e77b2c7ef323) with the desired parameters, such as start and end dates, to fetch the chat IDs.
 6. Process the response to obtain the list of chat IDs.
-7. For each chat ID, send a POST request to the details endpoint (`https://api.synthetix.com/2.0/livechat/details`) [📖](https://documenter.getpostman.com/view/398027/2s93sf1qZM#a5588311-97ba-437f-9aac-d8d196a96072) with the chat ID in the request payload to retrieve the chat details.
+7. For each chat ID, send a POST request to the details endpoint (`https://api.synthetix.com/2.0/livechat/details`) [📖](https://documentation.synthetix.com/#a5588311-97ba-437f-9aac-d8d196a96072) with the chat ID in the request payload to retrieve the chat details.
 8. Handle the response and save the chat details, such as the JSON response, to the desired location.
 9. Repeat the process for each chat ID retrieved in step 6.
 
@@ -56,7 +56,7 @@ Please note that the provided code in this repository serves as a reference impl
 
 Before using the Synthetix API for your own application, you need to acquire the necessary application and consumer keys from your Synthetix account manager. Additionally, please note that your application will be subject to approval by Synthetix staff. During the development and testing phase, it is recommended to use the Staging environment. Once your application is approved, you can switch to the production environment.
 
-For more information about the Synthetix API, you can refer to the [Synthetix API Documentation](https://api.synthetix.com/).
+For more information about the Synthetix API, you can refer to the [Synthetix API Documentation](https://documentation.synthetix.com).
 
 ## Disclaimer and Terms of Service
 
