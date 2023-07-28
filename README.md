@@ -9,9 +9,11 @@ Synthetix Transcript Downloader is an unofficial application that allows you to 
 
 You can install the application by following these steps:
 
-1. Download the installation file from the [Installer](./Installer/setup.exe) directory.
+1. Download the [Installer](./Installer) folder and run the setup.exe from the directory.
 2. Run the setup.exe file.
 3. Follow the on-screen instructions to complete the installation process.
+
+Note: Some Antivirus application detect this as being malicious, you may need to add as an exception.
 
 ## Usage
 
