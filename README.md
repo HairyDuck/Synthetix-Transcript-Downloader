@@ -4,6 +4,9 @@
 
 **⚠️ Important Disclaimer:** This is an unofficial Chrome extension developed independently. It is **not** created, maintained, supported, sponsored, or endorsed by Synthetix or any of its affiliates or subsidiaries. Use this extension at your own risk. For official Synthetix support and features, please contact your Synthetix Account Manager.
 
+[![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Install-brightgreen?logo=googlechrome)](https://chromewebstore.google.com/detail/ndcacfbnjlggoolaginndlpdmkpomjba)
+[![Firefox Add-ons](https://img.shields.io/badge/Firefox_Add--ons-Install-blue?logo=firefox)](https://addons.mozilla.org/en-GB/firefox/addon/synthetix-transcript-download/)
+
 ---
 
 ## Overview
@@ -26,9 +29,10 @@ This Chrome extension enables users with valid Synthetix API credentials (**Serv
 
 There are two ways to install the extension:
 
-### 1. Chrome Web Store (Recommended)
+### 1. From Browser Stores (Recommended)
 
-*   [Install from Chrome Web Store](https://chromewebstore.google.com/detail/ndcacfbnjlggoolaginndlpdmkpomjba)
+*   **Chrome:** [Install from Chrome Web Store](https://chromewebstore.google.com/detail/ndcacfbnjlggoolaginndlpdmkpomjba)
+*   **Firefox:** [Install from Firefox Add-ons](https://addons.mozilla.org/en-GB/firefox/addon/synthetix-transcript-download/)
 
 ### 2. Manual / Developer Install
 

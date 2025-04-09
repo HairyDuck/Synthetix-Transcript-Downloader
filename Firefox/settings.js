@@ -6,6 +6,18 @@ const defaultSettings = {
   password: ''
 };
 
+// Helper function (uses browser.runtime)
+async function sendMessageToBackground(messagePayload) {
+  try {
+    const response = await browser.runtime.sendMessage(messagePayload);
+    console.log('Response from background:', response);
+    return response;
+  } catch (error) {
+    console.error('Failed to send message or background error:', error, messagePayload);
+    return { error: error.message };
+  }
+}
+
 // Initialize the settings page
 document.addEventListener('DOMContentLoaded', async () => {
   // Get DOM elements
@@ -25,8 +37,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const backToExtensionLink = document.querySelector('.navigation a[href="popup.html"]');
   const viewInstructionsLink = document.querySelector('.navigation a[href="instructions.html"]');
 
-  // Load saved settings
-  const settings = await chrome.storage.local.get([
+  // Load saved settings (uses browser.storage)
+  const settings = await browser.storage.local.get([
     'apiEnvironment',
     'applicationKey',
     'consumerKey',
@@ -67,7 +79,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Save settings
+  // Save Settings (uses browser.storage)
   if (saveButton) {
     saveButton.addEventListener('click', async () => {
       // Validate inputs
@@ -76,27 +88,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
-      // Save settings
-      await chrome.storage.local.set({
-        apiEnvironment: environmentSelect.value,
-        applicationKey: applicationKeyInput.value,
-        consumerKey: consumerKeyInput.value,
-        username: usernameInput.value,
-        password: passwordInput.value,
-        saveToSubfolder: saveToSubfolderCheckbox.checked
-      });
+      try { // Add try/catch for storage operation
+        await browser.storage.local.set({
+          apiEnvironment: environmentSelect.value,
+          applicationKey: applicationKeyInput.value,
+          consumerKey: consumerKeyInput.value,
+          username: usernameInput.value,
+          password: passwordInput.value,
+          saveToSubfolder: saveToSubfolderCheckbox.checked
+        });
 
-      // Ensure passwords are obfuscated after saving
-      applicationKeyInput.type = 'password';
-      consumerKeyInput.type = 'password';
-      passwordInput.type = 'password';
-      togglePasswordButton.textContent = 'Show';
+        // Ensure passwords are obfuscated after saving
+        applicationKeyInput.type = 'password';
+        consumerKeyInput.type = 'password';
+        passwordInput.type = 'password';
+        togglePasswordButton.textContent = 'Show';
 
-      showStatus('Settings saved successfully', 'success');
+        showStatus('Settings saved successfully', 'success');
+      } catch (e) {
+        console.error("Error saving settings:", e);
+        showStatus(`Error saving settings: ${e.message}`, 'error');
+      }
     });
   }
 
-  // Test Connection Logic
+  // Test Connection (uses browser.runtime for messaging)
   if (testConnectionButton) {
     testConnectionButton.addEventListener('click', async () => {
       // Clear previous status and show spinner
@@ -134,7 +150,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       try {
-        // Attempt login
+        // Attempt login (fetch is unchanged, sendMessageToBackground uses browser.*)
         const response = await fetch(`${apiUrlBase}/2.0/internal/session`, {
           method: 'POST',
           headers: {
@@ -191,25 +207,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Handle Back to Extension link
+  // Handle Back to Extension link (uses browser.tabs)
   if (backToExtensionLink) {
-    backToExtensionLink.addEventListener('click', (event) => {
-      event.preventDefault(); // Prevent opening popup.html
-      // Close the current settings tab
-      chrome.tabs.getCurrent(tab => {
+    backToExtensionLink.addEventListener('click', async (event) => { // Make async
+      event.preventDefault();
+      try {
+        // Get current tab using browser.tabs.getCurrent() which returns a Promise
+        const tab = await browser.tabs.getCurrent();
         if (tab && tab.id) {
-          chrome.tabs.remove(tab.id);
+          await browser.tabs.remove(tab.id);
         }
-      });
+      } catch(e) {
+        console.error("Error closing settings tab:", e);
+        // Fallback or alternative needed if getCurrent fails (e.g., maybe just go back?)
+        // window.history.back(); // Less ideal
+      }
     });
   }
 
-  // Handle View Instructions link
+  // Handle View Instructions link (uses browser.tabs)
   if (viewInstructionsLink) {
     viewInstructionsLink.addEventListener('click', (event) => {
-      event.preventDefault(); // Prevent default navigation
-      // Open instructions.html in a new tab
-      chrome.tabs.create({ url: chrome.runtime.getURL('instructions.html') });
+      event.preventDefault();
+      browser.tabs.create({ url: browser.runtime.getURL('instructions.html') });
     });
   }
 

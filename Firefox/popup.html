@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Synthetix Transcript Downloader</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo-container">
+        <img src="images/synthetix-logo.png" alt="Synthetix Logo" class="logo">
+      </div>
+      <h1>Synthetix Transcript Downloader</h1>
+    </div>
+
+    <div class="date-range">
+      <div class="form-group">
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate">
+      </div>
+      <div class="form-group">
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate">
+      </div>
+    </div>
+
+    <button id="downloadButton" class="button">Download Transcripts</button>
+    
+    <div class="log-container">
+      <h2>Log</h2>
+      <div id="log" class="log"></div>
+    </div>
+
+    <div class="footer">
+      <a href="#" id="settingsLink" class="link">Open Settings</a>
+      <a href="#" id="viewFullLogLink" class="link">View Full Log</a>
+      <a href="#" id="instructionsLink" class="link">View Instructions</a>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html> 
