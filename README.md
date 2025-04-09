@@ -42,9 +42,9 @@ This Chrome extension enables users with valid Synthetix API credentials (**Serv
 
 ## Screenshots
 
-*   `![Popup Interface](docs/images/popup_screenshot.png)`
-*   `![Settings Page](docs/images/settings_screenshot.png)`
-*   `![Instructions Page](docs/images/instructions_screenshot.png)`
+![Popup Interface](docs/images/popup_screenshot.png)
+![Settings Page](docs/images/settings_screenshot.png)`
+![Instructions Page](docs/images/instructions_screenshot.png)
 
 ## Common Troubleshooting
 
@@ -52,6 +52,3 @@ This Chrome extension enables users with valid Synthetix API credentials (**Serv
 *   **No Transcripts Found:** Check the date range and ensure chats exist in the selected environment for that period.
 *   **Other Errors:** Check the popup log for specific messages. Contact your Synthetix Account Manager for API-related issues (key validity, permissions, rate limits).
 
-## License
-
-[MIT](https://opensource.org/licenses/MIT) 
