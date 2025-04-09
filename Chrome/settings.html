@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Settings - Synthetix Transcript Downloader</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa; /* Match popup */
+      color: #333;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 700px; /* Adjusted width */
+      margin: 20px auto; /* Added top/bottom margin */
+      padding: 30px 30px;
+      background-color: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #dee2e6;
+    }
+    /* Disclaimer banner - using same style as instructions */
+    .disclaimer-banner {
+      background-color: #fff3cd;
+      border: 1px solid #ffeeba;
+      color: #856404;
+      padding: 12px 15px;
+      margin-bottom: 25px;
+      border-radius: 4px;
+      font-size: 0.95em;
+      line-height: 1.4;
+      text-align: left;
+    }
+    .disclaimer-banner strong {
+      color: #856404;
+    }
+    .logo-container {
+        margin-bottom: 15px;
+    }
+    .logo {
+        width: 70px; /* Slightly larger logo */
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+    .header h1 {
+      color: #4CAF50;
+      margin: 0;
+      font-size: 1.8em; /* Larger heading */
+      font-weight: 600;
+    }
+    .header p {
+      color: #6c757d;
+      margin: 8px 0 0;
+      font-size: 1.1em;
+    }
+    .settings-form {
+      /* Removed background/border, container handles it */
+      padding: 0;
+      box-shadow: none;
+    }
+    /* Service account note - green info box */
+    .service-account-note {
+      background-color: #d4edda;
+      border-left: 4px solid #28a745;
+      padding: 15px;
+      margin: 0 0 25px 0; /* Position before form */
+      border-radius: 4px;
+      font-size: 0.95em;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #495057;
+      font-size: 0.95em;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="password"],
+    .form-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      font-size: 1em;
+      box-sizing: border-box;
+      background-color: #fff;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #80bdff;
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    /* Tooltip styles */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      margin-left: 4px;
+      cursor: help;
+      color: #6c757d;
+      font-weight: normal;
+      font-size: 0.9em;
+    }
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 250px;
+      background-color: #555;
+      color: #fff;
+      text-align: left;
+      border-radius: 6px;
+      padding: 10px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 13px; /* Adjusted */
+      line-height: 1.4;
+    }
+    .tooltip .tooltiptext::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #555 transparent transparent transparent;
+    }
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+    /* Password toggle */
+    .password-container {
+      position: relative;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #6c757d;
+      font-size: 0.9em;
+      padding: 5px;
+    }
+    .toggle-password:hover {
+      color: #007bff;
+    }
+    /* Button styling */
+    .button {
+      display: inline-block;
+      padding: 10px 24px;
+      background-color: #28a745;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.075);
+    }
+    .button:hover {
+      background-color: #218838;
+    }
+    .button:focus {
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+    }
+    .button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+    /* Status message styles */
+    .status {
+      margin-top: 20px;
+      padding: 12px 15px;
+      border-radius: 4px;
+      display: none;
+      font-size: 0.95em;
+    }
+    .status.success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      display: block;
+    }
+    .status.error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      display: block;
+    }
+    /* Navigation */
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #dee2e6;
+    }
+    /* Footer disclaimer */
+    .disclaimer {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #dee2e6;
+      color: #6c757d;
+      font-size: 0.85em;
+      line-height: 1.5;
+    }
+    .button-group {
+      display: flex;
+      gap: 10px; /* Space between buttons */
+      align-items: center; /* Align items vertically */
+    }
+    .spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(0,0,0,.1);
+        border-radius: 50%;
+        border-top-color: #28a745;
+        animation: spin 1s ease-in-out infinite;
+        margin-left: 10px; /* Space it from the button text */
+        vertical-align: middle;
+        display: none; /* Hidden by default */
+    }
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    /* Style for checkbox group */
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 5px; /* Add some space above */
+    }
+    .checkbox-group input[type="checkbox"] {
+      width: auto; /* Override default input width */
+      margin: 0;
+    }
+    .checkbox-group label {
+      margin-bottom: 0; /* Reset label margin */
+      font-weight: normal; /* Normal weight for checkbox label */
+      font-size: 0.95em;
+      color: #495057;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="disclaimer-banner">
+        <strong>⚠️ UNOFFICIAL EXTENSION:</strong> This is an unofficial Chrome extension. It is not created, supported, or endorsed by Synthetix. For official support, please contact your Synthetix Account Manager.
+      </div>
+      <div class="logo-container">
+        <img src="images/synthetix-logo.png" alt="Synthetix Logo" class="logo">
+      </div>
+      <h1>Synthetix Transcript Downloader</h1>
+      <p>Configure your API settings</p>
+    </div>
+
+    <div class="service-account-note">
+      <strong>Important:</strong> For API access, you must use a <strong>service account</strong> credentials and keys. Standard user accounts will not work. Contact your Synthetix Account Manager if needed.
+    </div>
+
+    <div class="settings-form">
+      <div class="form-group">
+        <label for="apiEnvironment">API Environment <span class="tooltip">ℹ️<span class="tooltiptext">Select the Synthetix API environment. New keys usually only work with Sandbox initially. Check with your Account Manager if unsure.</span></span></label>
+        <select id="apiEnvironment">
+          <option value="production">Production (api.synthetix.com)</option>
+          <option value="staging">Staging (apistaging.synthetix.com)</option>
+          <option value="sandbox">Sandbox (apisandbox.synthetix.com)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="applicationKey">Application Key <span class="tooltip">ℹ️<span class="tooltiptext">Your unique Application Key from Synthetix.</span></span></label>
+        <input type="password" id="applicationKey" placeholder="Enter Application Key">
+      </div>
+      <div class="form-group">
+        <label for="consumerKey">Consumer Key <span class="tooltip">ℹ️<span class="tooltiptext">Your unique Consumer Key from Synthetix.</span></span></label>
+        <input type="password" id="consumerKey" placeholder="Enter Consumer Key">
+      </div>
+      <div class="form-group">
+        <label for="username">Service Account Username <span class="tooltip">ℹ️<span class="tooltiptext">Username for your Synthetix service account.</span></span></label>
+        <input type="text" id="username" placeholder="Enter service account username">
+      </div>
+      <div class="form-group">
+        <label for="password">Service Account Password <span class="tooltip">ℹ️<span class="tooltiptext">Password for your Synthetix service account.</span></span></label>
+        <div class="password-container">
+          <input type="password" id="password" placeholder="Enter service account password">
+          <button type="button" class="toggle-password" id="togglePassword">Show</button>
+        </div>
+      </div>
+      <div class="form-group">
+          <label>Download Options</label>
+          <div class="checkbox-group">
+              <input type="checkbox" id="saveToSubfolder">
+              <label for="saveToSubfolder">Save transcripts to a 'SynthetixTranscripts' subfolder in Downloads</label>
+          </div>
+      </div>
+      <div class="button-group">
+          <button id="saveButton" class="button">Save Settings</button>
+          <button id="testConnectionButton" class="button" style="background-color: #007bff;">Test Connection<span id="testSpinner" class="spinner"></span></button>
+      </div>
+      <div id="status" class="status"></div>
+    </div>
+
+    <div class="navigation">
+      <!-- Kept button class for consistent styling -->
+      <a href="popup.html" class="button" style="background-color: #6c757d;">← Back to Extension</a>
+      <a href="instructions.html" class="button" style="background-color: #007bff;">View Instructions →</a>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Important Disclaimer:</strong> This is an unofficial Chrome extension for Synthetix. It is not created, maintained, supported, sponsored, or endorsed by Synthetix. Use at your own risk. Provided "as is" without warranty. For official support, contact your Synthetix Account Manager.
+    </div>
+  </div>
+  <script src="settings.js"></script>
+</body>
+</html> 

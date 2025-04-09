@@ -1,79 +1,91 @@
-
 # Synthetix Transcript Downloader (Unofficial)
 
-Synthetix Transcript Downloader is an unofficial application that allows you to fetch and save chat transcripts from the Synthetix platform.
+**⚠️ Important Disclaimer:** This is an unofficial Chrome extension developed independently. It is **not** created, maintained, supported, sponsored, or endorsed by Synthetix or any of its affiliates or subsidiaries. Use this extension at your own risk. For official Synthetix support and features, please contact your Synthetix Account Manager.
 
-![Main Window](./Screenshots/main.png)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Overview
+
+This Chrome extension allows users with appropriate Synthetix API access to download chat transcripts based on a selected date range. It requires specific API credentials linked to a **Synthetix Service Account**.
+
+The extension provides a user-friendly interface within the browser to specify dates, manage settings securely, and monitor the download process.
+
+## Features
+
+*   **Date Range Selection:** Choose start and end dates for targeted transcript downloads.
+*   **Environment Selection:** Connect to Production, Staging, or Sandbox Synthetix API environments via settings.
+*   **Secure Credential Storage:** API keys and service account credentials are stored securely using Chrome's local storage (`chrome.storage.local`). Passwords and keys are obfuscated in the settings UI.
+*   **Connection Testing:** Includes a button in settings to verify API credentials and environment selection before attempting downloads.
+*   **Subfolder Downloads:** Option to save downloaded transcripts automatically into a `SynthetixTranscripts` subfolder within the browser's default Downloads directory.
+*   **Clear Logging:** View progress, status messages, and any errors directly in the extension popup's log area.
+*   **First-Run Instructions:** A detailed instructions page opens automatically upon first installation to guide users through setup.
+*   **Modern UI:** Clean and consistent user interface across the popup, settings, and instructions pages.
 
 ## Installation
 
-You can install the application by following these steps:
+### Method 1: Chrome Web Store (Recommended)
 
-1. Download the [Installer](./Installer) folder and run the setup.exe from the directory.
-2. Run the setup.exe file.
-3. Follow the on-screen instructions to complete the installation process.
+*   [Install from Chrome Web Store](https://chromewebstore.google.com/detail/ndcacfbnjlggoolaginndlpdmkpomjba)
 
-Note: Some Antivirus application detect this as being malicious, you may need to add as an exception.
+### Method 2: Local Development/Manual Install
 
-## Usage
+1.  Clone or download this repository to your local machine.
+    ```bash
+    git clone <your-repository-url>
+    cd Synthetix-Transcript-Downloader
+    ```
+2.  Open Google Chrome and navigate to `chrome://extensions/`.
+3.  Enable **"Developer mode"** using the toggle switch in the top-right corner.
+4.  Click the **"Load unpacked"** button that appears.
+5.  In the file dialog, navigate to and select the **`Chrome`** folder within the cloned `Synthetix-Transcript-Downloader` directory.
+6.  The "Synthetix Transcript Downloader (Unofficial)" extension should now appear in your list of extensions and be ready to use.
 
-1. Launch the Synthetix Transcript Downloader application.
-2. Enter your Synthetix credentials and API keys in the Settings tab. (Note that you should use a service account otherwise, you will need to login on the console first to avoid MFA. Speak to your account manager about getting a service account)
-3. Click the "Save" button to save your settings.
-4. Go back to the Main tab and select the date range you wish to capture data from.
-5. Click the "Get Transcripts" button to log in and fetch the chat IDs.
-6. The chat IDs will be displayed in the log window.
-7. The application will automatically download and save the transcripts for each chat ID.
-8. The saved transcripts will be stored in the specified output path.
+## Usage Guide
 
-![Settings Window](./Screenshots/settings.png)
+1.  **Install** the extension using one of the methods above. The Instructions page should open automatically after installation.
+2.  **Configure Settings:**
+    *   Click the extension icon in your Chrome toolbar, then click the **"Open Settings"** link at the bottom of the popup. (Alternatively, right-click the extension icon and select "Options").
+    *   On the Settings page:
+        *   Select the appropriate **API Environment** (Production, Staging, or Sandbox) that your API keys are authorized for.
+        *   Enter your Synthetix **Application Key**.
+        *   Enter your Synthetix **Consumer Key**.
+        *   Enter your Synthetix **Service Account Username**.
+        *   Enter your Synthetix **Service Account Password**.
+        *   **Crucially:** The username and password *must* belong to a **Service Account**, not a standard user account. Contact your Synthetix Account Manager if you don't have these.
+        *   (Optional) Check the box to save downloads into the `SynthetixTranscripts` subfolder.
+        *   Use the **"Test Connection"** button to verify your credentials and selected environment.
+        *   Click **"Save Settings"**.
+3.  **Download Transcripts:**
+    *   Click the extension icon to open the popup.
+    *   Select the desired **Start Date** and **End Date** using the date pickers.
+    *   Click the **"Download Transcripts"** button.
+    *   Monitor the download progress and any status messages in the **Log** section below the button.
+    *   Files will be saved as `SynthetixTranscript_[ChatID].json` in your default Downloads folder (or the `SynthetixTranscripts` subfolder if the option was enabled).
 
-## Configuration
+## Screenshots
 
-The application uses a settings file (settings.json) to store your configuration. You can find this file in the same directory as the executable. You can modify the settings directly by opening the file in a text editor.
+*   `![Popup Interface](docs/images/popup_screenshot.png)`
+*   `![Settings Page](docs/images/settings_screenshot.png)`
+*   `![Instructions Page](docs/images/instructions_screenshot.png)`
+
+## Troubleshooting
+
+*   **Login Failed / Invalid Credentials / Not Authorized:**
+    *   Double-check every character of the Application Key, Consumer Key, Service Account Username, and Password in the Settings.
+    *   Ensure you have selected the correct API Environment (Sandbox, Staging, Production) that your keys are valid for. New keys often only work in Sandbox initially.
+    *   Confirm you are using **Service Account** credentials, not standard user credentials.
+    *   Use the "Test Connection" button in Settings for quick verification.
+*   **No Transcripts Found:** Verify the selected date range is correct and that chat interactions occurred within that period in the chosen environment.
+*   **Download Errors / Network Errors:** Check the specific error message in the popup log. Ensure you have a stable internet connection. Check if there might be network restrictions or firewalls blocking access to the Synthetix API endpoints.
+*   **Extension Not Working After Update:** Go to `chrome://extensions/`, find the extension, and click the refresh/reload icon. If problems persist, try removing and reinstalling the extension (your settings should be preserved if you reinstall quickly, but backup is always wise).
+
+**Note:** As this is an unofficial tool, the developer cannot assist with issues related to obtaining API keys, Synthetix API rate limits, Synthetix service outages, or policies specific to your Synthetix account. Please contact your Synthetix Account Manager for such issues.
 
 ## Contributing
 
-Contributions are welcome! If you have any bug reports, feature requests, or code improvements, feel free to open an issue or submit a pull request.
-
-## Writing Your Own Application
-
-If you want to develop your own application or integrate the functionality of Synthetix Transcript Downloader into your existing project, you can follow this flow to understand the logic behind the process:
-
-1. Establish an HTTP client to communicate with the Synthetix API.
-2. Implement the login functionality by sending a POST request to the login endpoint (`https://api.synthetix.com/2.0/internal/session`) [📖](https://documentation.synthetix.com/#43583361-35e3-40d4-98da-8fe062f38ca1) with the necessary headers and form data (`username` and `password`). Synthetix changed this from /internal/profile to /internal/session on 31/08/2023
-3. Upon successful login, retrieve the bearer token from the response.
-4. Use the obtained bearer token and required headers (`APPLICATIONKEY` and `CONSUMERKEY`) to authenticate subsequent API requests.
-5. Send a GET request to the chat IDs endpoint (`https://api.synthetix.com/2.0/internal/chatids`) [📖](https://documentation.synthetix.com/#8cb1c14f-5e82-43e1-b972-e77b2c7ef323) with the desired parameters, such as start and end dates, to fetch the chat IDs.
-6. Process the response to obtain the list of chat IDs.
-7. For each chat ID, send a POST request to the details endpoint (`https://api.synthetix.com/2.0/livechat/details`) [📖](https://documentation.synthetix.com/#a5588311-97ba-437f-9aac-d8d196a96072) with the chat ID in the request payload to retrieve the chat details.
-8. Handle the response and save the chat details, such as the JSON response, to the desired location.
-9. Repeat the process for each chat ID retrieved in step 6.
-
-By following this flow and understanding the underlying logic, you can customize and build your own application to interact with the Synthetix API and implement specific functionalities based on your requirements.
-
-Please note that the provided code in this repository serves as a reference implementation, and you should adapt it to suit your specific use case and application architecture.
-
-## Note
-
-Before using the Synthetix API for your own application, you need to acquire the necessary application and consumer keys from your Synthetix account manager. Additionally, please note that your application will be subject to approval by Synthetix staff. During the development and testing phase, it is recommended to use the Staging environment. Once your application is approved, you can switch to the production environment.
-
-For more information about the Synthetix API, you can refer to the [Synthetix API Documentation](https://documentation.synthetix.com).
-
-## Disclaimer and Terms of Service
-
-This application is not affiliated with or endorsed by Synthetix. It is an unofficial tool developed by [HairyDuck](https://github.com/HairyDuck) for personal use.
-
-**Disclaimer:**
-This application is provided as-is with no warranty, express or implied. The developers of this application are not responsible for any damages or losses incurred while using the application.
-
-**Terms of Service:**
-By using this application, you agree to the following terms:
-- You acknowledge that this is an unofficial application and not affiliated with or endorsed by Synthetix.
-- You will use this application at your own risk and responsibility.
-- The developers of this application shall not be held liable for any actions, damages, or consequences resulting from the use of this application.
-- You will comply with all applicable laws and regulations while using this application.
+*(Optional: Add guidelines if you accept contributions)*
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
 
-This project is licensed under the [MIT License](./LICENSE).
+[MIT](https://opensource.org/licenses/MIT) 

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Instructions - Synthetix Transcript Downloader</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa; /* Match popup */
+      color: #333;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px; /* Adjusted */
+      margin: 20px auto;
+      padding: 30px 30px;
+      background-color: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #dee2e6;
+    }
+    /* Disclaimer banner - use same style */
+    .disclaimer-banner {
+      background-color: #fff3cd;
+      border: 1px solid #ffeeba;
+      color: #856404;
+      padding: 12px 15px;
+      margin-bottom: 25px;
+      border-radius: 4px;
+      font-size: 0.95em;
+      line-height: 1.4;
+      text-align: left;
+    }
+    .disclaimer-banner strong {
+      color: #856404;
+    }
+    .logo-container {
+        margin-bottom: 15px;
+    }
+    .logo {
+        width: 70px; /* Slightly larger logo */
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+    .header h1 {
+      color: #4CAF50;
+      margin: 0;
+      font-size: 1.8em; /* Larger heading */
+      font-weight: 600;
+    }
+    .header p {
+      color: #6c757d;
+      margin: 8px 0 0;
+      font-size: 1.1em;
+    }
+    /* Step styling */
+    .step {
+      background-color: #fff; /* No separate background needed now */
+      border-radius: 0; /* Remove radius */
+      padding: 20px 0; /* Vertical padding only */
+      margin-bottom: 25px;
+      box-shadow: none; /* Remove shadow */
+      border-bottom: 1px solid #eee; /* Separator */
+    }
+    .step:last-of-type {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    .step h2 {
+      color: #4CAF50;
+      margin-top: 0;
+      margin-bottom: 15px; /* Space below heading */
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.3em; /* Adjusted */
+      font-weight: 600;
+    }
+    .step-number {
+      background-color: #4CAF50;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.9em;
+      flex-shrink: 0; /* Prevent shrinking */
+    }
+    /* Text, lists, notes */
+    .step p, .step ul, .step ol {
+        margin-bottom: 15px;
+        font-size: 0.98em;
+    }
+    .step ul, .step ol {
+        padding-left: 30px;
+    }
+    .step li {
+        margin-bottom: 8px;
+    }
+    .image-container {
+      margin: 20px 0;
+      text-align: center;
+    }
+    .image-container img {
+      max-width: 80%; /* Limit image width */
+      height: auto;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      border: 1px solid #ddd;
+    }
+    .image-caption {
+      color: #6c757d;
+      font-size: 0.85em;
+      margin-top: 8px;
+    }
+    /* Note and Tip Boxes */
+    .note, .tip {
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+      font-size: 0.95em;
+    }
+    .note {
+      background-color: #fff3cd;
+      border-left: 4px solid #ffeeba;
+      color: #856404;
+    }
+    .tip {
+      background-color: #d4edda;
+      border-left: 4px solid #c3e6cb;
+      color: #155724;
+    }
+    .note strong, .tip strong {
+        font-weight: 600;
+    }
+    /* API Link */
+    .api-link {
+      color: #007bff; /* Standard link blue */
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .api-link:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+    /* Button styling (use same as settings/popup) */
+    .button {
+      display: inline-block;
+      padding: 10px 24px;
+      background-color: #28a745;
+      color: white !important; /* Ensure color override */
+      text-decoration: none !important; /* Ensure override */
+      border-radius: 4px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.075);
+    }
+    .button:hover {
+      background-color: #218838;
+    }
+    .button:focus {
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+    }
+    /* Navigation */
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #dee2e6;
+    }
+    /* Footer disclaimer */
+    .disclaimer {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #dee2e6;
+      color: #6c757d;
+      font-size: 0.85em;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+        <div class="disclaimer-banner">
+          <strong>⚠️ UNOFFICIAL EXTENSION:</strong> This is an unofficial Chrome extension. It is not created, supported, or endorsed by Synthetix. For official support, please contact your Synthetix Account Manager.
+        </div>
+        <div class="logo-container">
+          <img src="images/synthetix-logo.png" alt="Synthetix Logo" class="logo">
+        </div>
+        <h1>Welcome to Synthetix Transcript Downloader</h1>
+        <p>Follow these simple steps to get started</p>
+      </div>
+  
+      <div class="step">
+        <h2><span class="step-number">1</span> Get Your API Keys & Service Account</h2>
+        <p>You'll need API credentials from Synthetix, specifically for a <strong>service account</strong>:</p>
+        <ul>
+          <li>Application Key</li>
+          <li>Consumer Key</li>
+          <li>Service Account Username</li>
+          <li>Service Account Password</li>
+        </ul>
+        <div class="note">
+          <strong>Important:</strong> Standard user account credentials will <strong>not</strong> work for API access. You must use a dedicated service account.
+        </div>
+        <p><strong>How to acquire API keys:</strong></p>
+        <ol>
+          <li>Contact your Synthetix Account Manager with a written request.</li>
+          <li>Clearly describe the purpose of this unofficial downloader tool.</li>
+          <li>Provide a name/description for the keys (e.g., "Unofficial Transcript Downloader Keys").</li>
+          <li>Acknowledge the Synthetix API Terms of Use.</li>
+        </ol>
+        <div class="tip">
+          <strong>Environments:</strong> By default, new keys usually access the Sandbox environment (<code>apisandbox.synthetix.com</code>). Production access (<code>api.synthetix.com</code>) requires review. Select the correct environment in the extension settings.
+        </div>
+        <p>For more details, refer to the official <a href="https://documentation.synthetix.com/#getting-started" target="_blank" class="api-link">Synthetix API Documentation</a>.</p>
+      </div>
+  
+      <div class="step">
+        <h2><span class="step-number">2</span> Configure the Extension</h2>
+        <p>Open the extension settings:</p>
+        <ul>
+            <li>Click the extension icon in your toolbar, then click "Open Settings" at the bottom.</li>
+            <li>Alternatively, right-click the extension icon and select "Options".</li>
+        </ul>
+        
+        <!-- Image 1 - Settings Link Location -->
+        <div class="image-container">
+          <img src="images/popup_screenshot_showing_settings.png" alt="Settings link location">
+          <div class="image-caption">Location of the "Open Settings" link in the popup.</div>
+        </div>
+  
+        <p>In the settings page:</p>
+        <ol>
+            <li>Select the correct <strong>API Environment</strong> (Sandbox, Staging, or Production) matching your keys.</li>
+            <li>Enter your <strong>Application Key</strong> and <strong>Consumer Key</strong>.</li>
+            <li>Enter your <strong>Service Account Username</strong> and <strong>Password</strong>.</li>
+            <li>Click <strong>Save Settings</strong>.</li>
+        </ol>
+
+        <!-- Image 2 - Settings Page -->
+        <div class="image-container">
+          <img src="images/settings_screenshot.png" alt="Settings page fields">
+          <div class="image-caption">Fill in your credentials and select the environment on the settings page.</div>
+        </div>
+  
+        <div class="tip">
+          <strong>Remember:</strong> Credentials are stored locally on your browser. Use the "Show" button to temporarily view the password if needed.
+        </div>
+      </div>
+  
+      <div class="step">
+        <h2><span class="step-number">3</span> Download Transcripts</h2>
+        <p>Using the extension popup:</p>
+        <ol>
+          <li>Select the desired <strong>Start Date</strong> and <strong>End Date</strong>.</li>
+          <li>Click the <strong>Download Transcripts</strong> button.</li>
+        </ol>
+  
+        <!-- Image 3 - Download Process -->
+        <div class="image-container">
+          <img src="images/popup_running_screenshot.png" alt="Download process in popup">
+          <div class="image-caption">Select dates and click the download button in the popup.</div>
+        </div>
+  
+        <p>The extension will log its progress:</p>
+        <ul>
+          <li>Attempting to log in using the configured settings and environment.</li>
+          <li>Fetching chat IDs for the selected date range.</li>
+          <li>Downloading each transcript as a JSON file.</li>
+          <li>Reporting success or any errors encountered.</li>
+        </ul>
+      </div>
+  
+      <div class="step">
+        <h2><span class="step-number">4</span> Troubleshooting</h2>
+        <ul>
+            <li><strong>Login Failed / Invalid Credentials:</strong> Double-check all keys, username, password, and selected API environment in settings. Ensure you are using Service Account details.</li>
+            <li><strong>No Transcripts Found:</strong> Verify the date range is correct and that chats exist during that period in the selected environment.</li>
+            <li><strong>Download Errors:</strong> Check the log in the popup for specific error messages. Ensure your network connection is stable.</li>
+            <li><strong>Extension Not Working After Update:</strong> Try reloading the extension from `chrome://extensions/`.</li>
+        </ul>
+        <div class="note">
+          <strong>This is an unofficial tool.</strong> For issues related to API access, key validity, or Synthetix services, please contact your Synthetix Account Manager.
+        </div>
+      </div>
+  
+      <div class="navigation">
+        <!-- Apply button class for consistency -->
+        <a href="popup.html" class="button" style="background-color: #6c757d;">← Back to Extension</a>
+        <a href="settings.html" class="button" style="background-color: #007bff;">Configure Settings →</a>
+      </div>
+  
+      <div class="disclaimer">
+        <strong>Important Disclaimer:</strong> This is an unofficial Chrome extension for Synthetix. It is not created, maintained, supported, sponsored, or endorsed by Synthetix. Use at your own risk. Provided "as is" without warranty. For official support, contact your Synthetix Account Manager.
+      </div>
+    </div>
+    <script src="instructions.js"></script>
+  </body>
+</html> 
