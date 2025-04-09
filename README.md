@@ -4,7 +4,7 @@
 
 **⚠️ Important Disclaimer:** This is an unofficial Chrome extension developed independently. It is **not** created, maintained, supported, sponsored, or endorsed by Synthetix or any of its affiliates or subsidiaries. Use this extension at your own risk. For official Synthetix support and features, please contact your Synthetix Account Manager.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+---
 
 ## Overview
 
@@ -20,19 +20,28 @@ This Chrome extension enables users with valid Synthetix API credentials (**Serv
 *   In-extension progress logging.
 *   Built-in instructions page (opens automatically on first run).
 
+---
+
 ## Installation
 
-*   **Chrome Web Store (Recommended):**
-    [Install from Chrome Web Store](https://chromewebstore.google.com/detail/ndcacfbnjlggoolaginndlpdmkpomjba)
-*   **Manual / Developer Install:**
-    1.  Download or clone this repository.
-    2.  Open Chrome, go to `chrome://extensions/`.
-    3.  Enable "Developer mode".
-    4.  Click "Load unpacked" and select the `Chrome` folder from this repository.
+There are two ways to install the extension:
 
-## Quick Start
+### 1. Chrome Web Store (Recommended)
 
-1.  **Install** the extension.
+*   [Install from Chrome Web Store](https://chromewebstore.google.com/detail/ndcacfbnjlggoolaginndlpdmkpomjba)
+
+### 2. Manual / Developer Install
+
+1.  Download or clone this repository.
+2.  Open Chrome, go to `chrome://extensions/`.
+3.  Enable "Developer mode" (top-right corner).
+4.  Click "Load unpacked" and select the `Chrome` folder from this repository.
+
+---
+
+## Getting Started (Quick Start)
+
+1.  **Install** the extension (see above).
 2.  **Open Settings:** Click the extension icon > "Open Settings" (or right-click icon > Options).
 3.  **Configure:** Enter your **Service Account** API keys/credentials and select the correct API Environment. Use "Test Connection" to verify.
 4.  **Save Settings.**
@@ -40,15 +49,29 @@ This Chrome extension enables users with valid Synthetix API credentials (**Serv
 
 *For detailed setup steps, please refer to the Instructions page that opens automatically when the extension is first installed, or access it via the link in the popup.* 
 
+---
+
 ## Screenshots
 
-![Popup Interface](docs/images/popup_screenshot.png)
-![Settings Page](docs/images/settings_screenshot.png)`
-![Instructions Page](docs/images/instructions_screenshot.png)
+*   Popup Interface:
+    ![Popup Interface](docs/images/popup_screenshot.png)
+*   Settings Page:
+    ![Settings Page](docs/images/settings_screenshot.png)
+*   Instructions Page:
+    ![Instructions Page](docs/images/instructions_screenshot.png)
+
+---
 
 ## Common Troubleshooting
 
 *   **Login Failed / Invalid Credentials:** Verify all credentials AND the selected API Environment in Settings. Ensure you are using **Service Account** credentials.
 *   **No Transcripts Found:** Check the date range and ensure chats exist in the selected environment for that period.
 *   **Other Errors:** Check the popup log for specific messages. Contact your Synthetix Account Manager for API-related issues (key validity, permissions, rate limits).
+
+---
+
+## License
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details (if one exists).
 
