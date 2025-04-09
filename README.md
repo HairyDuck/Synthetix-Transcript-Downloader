@@ -36,10 +36,25 @@ There are two ways to install the extension:
 
 ### 2. Manual / Developer Install
 
+**For Chrome:**
+
 1.  Download or clone this repository.
 2.  Open Chrome, go to `chrome://extensions/`.
 3.  Enable "Developer mode" (top-right corner).
-4.  Click "Load unpacked" and select the `Chrome` folder from this repository.
+4.  Click "Load unpacked" and select the **`Chrome`** folder from this repository.
+
+**For Firefox:**
+
+1.  Download or clone this repository.
+2.  Navigate into the **`Firefox`** directory within the repository.
+3.  Create a `.zip` file containing **all** the contents of the `Firefox` directory (manifest.json, background.js, icons/, images/, etc.). 
+    *   **Important:** Ensure the files are at the root of the zip file, not inside a nested `Firefox` folder within the zip.
+4.  Open Firefox, type `about:debugging` into the address bar, and press Enter.
+5.  Click "This Firefox" on the left sidebar.
+6.  Click the "Load Temporary Add-on..." button.
+7.  Select the `.zip` file you created in step 3.
+
+*(Note: Temporary add-ons in Firefox are removed when you close the browser.)*
 
 ---
 
