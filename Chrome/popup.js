@@ -8,6 +8,53 @@ const defaultSettings = {
   saveToSubfolder: false // Default is not to save in subfolder
 };
 
+// Helper function to send message to background script
+async function sendMessageToBackground(messagePayload) {
+  try {
+    const response = await chrome.runtime.sendMessage(messagePayload);
+    if (chrome.runtime.lastError) {
+      console.error('Error sending message:', chrome.runtime.lastError.message, messagePayload);
+      return { error: chrome.runtime.lastError.message };
+    }
+    console.log('Response from background:', response); // Debugging
+    return response;
+  } catch (error) {
+    console.error('Failed to send message:', error, messagePayload);
+    return { error: error.message };
+  }
+}
+
+// Log message function (now sends to background)
+async function log(message) {
+  await sendMessageToBackground({ action: "addLog", message: message });
+  // We also update the popup UI immediately for responsiveness
+  displayLogEntryInPopup(message);
+}
+
+// Function to display a single log entry in the popup UI
+function displayLogEntryInPopup(message) {
+  const logDiv = document.getElementById('log');
+  if (logDiv) {
+    const timestamp = new Date().toLocaleTimeString();
+    const entry = `[${timestamp}] ${message}`;
+    logDiv.innerHTML += entry + '<br>';
+    logDiv.scrollTop = logDiv.scrollHeight; // Scroll to bottom
+  } else {
+    console.error("Error: Could not find 'log' div to display message:", message);
+  }
+}
+
+// Function to display multiple log entries (used on load)
+function displayLogEntriesInPopup(entries) {
+  const logDiv = document.getElementById('log');
+  if (logDiv) {
+    logDiv.innerHTML = entries.join('<br>') + (entries.length > 0 ? '<br>' : ''); // Add trailing <br> if not empty
+    logDiv.scrollTop = logDiv.scrollHeight; // Scroll to bottom
+  } else {
+    console.error("Error: Could not find 'log' div to display entries");
+  }
+}
+
 // Initialize the popup
 document.addEventListener('DOMContentLoaded', () => {
   // --- Get elements and attach listeners immediately ---
@@ -39,6 +86,19 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error("Error: Could not find 'settingsLink'");
   }
 
+  // --- Add link for full log ---
+  const viewFullLogLink = document.getElementById('viewFullLogLink');
+
+  // --- Attach listeners immediately ---
+  if (viewFullLogLink) {
+    viewFullLogLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      chrome.tabs.create({ url: chrome.runtime.getURL('log.html') });
+    });
+  } else {
+    console.error("Error: Could not find 'viewFullLogLink'");
+  }
+
   // --- Handle asynchronous setup and checks ---
   (async () => {
     try {
@@ -49,6 +109,14 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if (startDateInput) startDateInput.value = lastWeek.toISOString().split('T')[0];
       if (endDateInput) endDateInput.value = today.toISOString().split('T')[0];
+
+      // --- Load initial log tail from background ---
+      const logResponse = await sendMessageToBackground({ action: "getLogTail" });
+      if (logResponse && logResponse.logTail) {
+        displayLogEntriesInPopup(logResponse.logTail);
+      } else {
+          await log("Could not load previous log entries."); // Log error via background
+      }
 
       // Load saved settings
       const settings = await chrome.storage.local.get(defaultSettings);
@@ -61,39 +129,32 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mark instructions as seen
         await chrome.storage.local.set({ hasSeenInstructions: true });
         // Log initial message even on first run
-        log('Welcome! Please configure your settings using the link below.');
+        await log('Welcome! Please configure your settings using the link below.');
         return; // No need to check settings again if it's the first instruction run
       }
       
       // Check if settings are configured (only if instructions have been seen)
       const isUnconfigured = !settings.applicationKey || !settings.consumerKey || !settings.username || !settings.password;
       if (isUnconfigured) {
-        log('Please configure your settings using the link below.');
+        await log('Please configure your settings using the link below.');
       }
     } catch (error) {
       console.error("Error during async setup:", error);
-      log("An error occurred during setup.");
+      // Use the new log function which sends to background
+      await log("An error occurred during popup setup."); 
     }
   })(); // Immediately invoke the async function
 });
 
-// Log messages to the log section
-function log(message) {
-  const logDiv = document.getElementById('log');
-  if (logDiv) {
-    const timestamp = new Date().toLocaleTimeString();
-    logDiv.innerHTML += `[${timestamp}] ${message}<br>`;
-    logDiv.scrollTop = logDiv.scrollHeight;
-  } else {
-    console.error("Error: Could not find 'log' div to write message:", message);
-  }
-}
-
 // Download transcripts
 async function downloadTranscripts() {
+  // Clear DOM log on new download attempt (background log persists)
   const logDiv = document.getElementById('log');
-  if (logDiv) logDiv.innerHTML = '';
-  else console.error("Cannot clear log, 'log' div not found");
+  if (logDiv) logDiv.innerHTML = ''; 
+  else console.error("Cannot clear popup log, 'log' div not found");
+
+  // Use the new log() function throughout, which sends to background
+  await log('Starting download process...'); 
 
   try {
     // Load settings including environment and subfolder option
@@ -103,17 +164,17 @@ async function downloadTranscripts() {
 
     // Validate settings (excluding environment for now)
     if (!settings.applicationKey || !settings.consumerKey || !settings.username || !settings.password) {
-      log('Error: Please configure your settings first (click "Open Settings" below).');
+      await log('Error: Please configure your settings first (click "Open Settings" below).');
       return;
     }
     
     // Validate dates
     if (!startDate || !endDate) {
-        log('Error: Please select valid start and end dates.');
+        await log('Error: Please select valid start and end dates.');
         return;
     }
 
-    log('Logging in...');
+    await log('Logging in...');
     
     // *** Construct API URL based on environment setting ***
     let apiUrlBase;
@@ -129,7 +190,7 @@ async function downloadTranscripts() {
         apiUrlBase = 'https://api.synthetix.com';
         break;
     }
-    log(`Using API Environment: ${settings.apiEnvironment || 'production'} (${apiUrlBase})`); // Log the environment being used
+    await log(`Using API Environment: ${settings.apiEnvironment || 'production'} (${apiUrlBase})`); // Use await log
     
     // Login and get token (using the dynamically set apiUrlBase)
     const loginResponse = await fetch(`${apiUrlBase}/2.0/internal/session`, {
@@ -159,16 +220,18 @@ async function downloadTranscripts() {
       console.error('Login Authorization Failed via /session:', loginData); // Log the actual response
       // Use the error message from the API if it exists and is a string, otherwise use a default
       const errorMessage = typeof loginData.authorised === 'string' ? loginData.authorised : 'Invalid credentials or service account not authorized.';
-      throw new Error(`Login failed: ${errorMessage}`);
+      await log(`Login failed: ${errorMessage}`); // Use await log
+      throw new Error(`Login failed: ${errorMessage}`); // Throw after logging
     }
     
     // Check for the token only if authorized
     if (!loginData.token) {
       console.error('Login response from /session missing token (authorised=true):', loginData);
-      throw new Error('Login authorized, but no authentication token received. API response format might have changed.');
+      await log('Login authorized, but no token received.'); // Use await log
+      throw new Error('Login authorized, but no token received...'); // Throw after logging
     }
 
-    log('Login successful. Fetching chat IDs...');
+    await log('Login successful. Fetching chat IDs...');
 
     // Get chat IDs
     const chatIdsResponse = await fetch(
@@ -195,11 +258,11 @@ async function downloadTranscripts() {
     }
     
     if (chatIds.length === 0) {
-        log('No chats found for the selected date range.');
+        await log('No chats found for the selected date range.');
         return;
     }
     
-    log(`Found ${chatIds.length} chats. Downloading transcripts...`);
+    await log(`Found ${chatIds.length} chats. Downloading transcripts...`);
 
     // Determine base filename prefix
     const subfolder = settings.saveToSubfolder ? 'SynthetixTranscripts/' : '';
@@ -238,28 +301,30 @@ async function downloadTranscripts() {
                 saveAs: false
               });
               successCount++;
-              log(`Downloaded transcript: ${filename}`); // Log full path
+              await log(`Downloaded transcript: ${filename}`); // Use await log
           } catch (downloadError) {
               console.error(`Chrome download API error for ${chatId}:`, downloadError);
-              log(`Error initiating download for transcript ${chatId} to ${filename}: ${downloadError.message}`);
+              await log(`Error initiating download for transcript ${chatId} to ${filename}: ${downloadError.message}`); // Use await log
               failCount++;
           }
         } else {
             const errorText = await detailsResponse.text();
             console.error(`Transcript details API error for ${chatId}:`, detailsResponse.status, errorText);
-            log(`Error fetching details for transcript ${chatId} (${detailsResponse.status}).`);
+            await log(`Error fetching details for transcript ${chatId} (${detailsResponse.status}).`); // Use await log
             failCount++;
         }
       } catch (error) {
         console.error(`Error processing transcript ${chatId}:`, error);
-        log(`Error processing transcript ${chatId}: ${error.message}`);
+        await log(`Error processing transcript ${chatId}: ${error.message}`); // Use await log
         failCount++;
       }
     }
 
-    log(`Download process finished. Successfully downloaded: ${successCount}. Failed: ${failCount}.`);
+    await log(`Download process finished. Successfully downloaded: ${successCount}. Failed: ${failCount}.`);
   } catch (error) {
     console.error('Download Transcript Error:', error);
-    log(`Error: ${error.message}`);
+    // Error should have been logged already by the part that threw it
+    // Maybe log a final generic error message if needed
+    await log(`Download failed. See previous messages or console for details.`); // Final catch log
   }
 } 

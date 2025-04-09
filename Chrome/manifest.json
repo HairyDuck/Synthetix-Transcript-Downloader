@@ -8,6 +8,9 @@
     "downloads",
     "tabs"
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -25,7 +28,7 @@
   },
   "options_page": "settings.html",
   "web_accessible_resources": [{
-    "resources": ["instructions.html", "icons/*", "images/*"],
+    "resources": ["instructions.html", "log.html", "icons/*", "images/*"],
     "matches": ["<all_urls>"]
   }]
 } 
