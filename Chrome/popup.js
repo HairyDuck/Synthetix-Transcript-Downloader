@@ -5,7 +5,8 @@ const defaultSettings = {
   consumerKey: '',
   username: '',
   password: '',
-  saveToSubfolder: false // Default is not to save in subfolder
+  saveToSubfolder: false, // Default is not to save in subfolder
+  downloadAsZip: true // Default is to download as ZIP
 };
 
 // Helper function to send message to background script
@@ -190,9 +191,9 @@ async function downloadTranscripts() {
         apiUrlBase = 'https://api.synthetix.com';
         break;
     }
-    await log(`Using API Environment: ${settings.apiEnvironment || 'production'} (${apiUrlBase})`); // Use await log
+    await log(`Using API Environment: ${settings.apiEnvironment || 'production'} (${apiUrlBase})`);
     
-    // Login and get token (using the dynamically set apiUrlBase)
+    // Login and get token
     const loginResponse = await fetch(`${apiUrlBase}/2.0/internal/session`, {
       method: 'POST',
       headers: {
@@ -201,8 +202,8 @@ async function downloadTranscripts() {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       body: new URLSearchParams({
-        username: settings.username, // Corrected parameter name
-        password: settings.password  // Corrected parameter name
+        username: settings.username,
+        password: settings.password
       })
     });
 
@@ -214,21 +215,19 @@ async function downloadTranscripts() {
 
     const loginData = await loginResponse.json();
     
-    // *** Updated check for authorisation based on actual API response ***
-    // Check if 'authorised' is not explicitly true (handles strings like "Invalid login details")
+    // Check authorization status
     if (loginData.authorised !== true) { 
-      console.error('Login Authorization Failed via /session:', loginData); // Log the actual response
-      // Use the error message from the API if it exists and is a string, otherwise use a default
+      console.error('Login Authorization Failed via /session:', loginData);
       const errorMessage = typeof loginData.authorised === 'string' ? loginData.authorised : 'Invalid credentials or service account not authorized.';
-      await log(`Login failed: ${errorMessage}`); // Use await log
-      throw new Error(`Login failed: ${errorMessage}`); // Throw after logging
+      await log(`Login failed: ${errorMessage}`);
+      throw new Error(`Login failed: ${errorMessage}`);
     }
     
     // Check for the token only if authorized
     if (!loginData.token) {
       console.error('Login response from /session missing token (authorised=true):', loginData);
-      await log('Login authorized, but no token received.'); // Use await log
-      throw new Error('Login authorized, but no token received...'); // Throw after logging
+      await log('Login authorized, but no token received.');
+      throw new Error('Login authorized, but no token received...');
     }
 
     await log('Login successful. Fetching chat IDs...');
@@ -267,6 +266,90 @@ async function downloadTranscripts() {
     // Determine base filename prefix
     const subfolder = settings.saveToSubfolder ? 'SynthetixTranscripts/' : '';
 
+    // Check if we should download as a single ZIP file
+    if (settings.downloadAsZip) {
+      await log('Preparing to download as a single ZIP file...');
+      
+      // First, collect all transcripts
+      const transcripts = {};
+      let successCount = 0;
+      let failCount = 0;
+      
+      for (const chatId of chatIds) {
+        try {
+          const detailsResponse = await fetch(`${apiUrlBase}/2.0/livechat/details`, {
+            method: 'POST',
+            headers: {
+              'APPLICATIONKEY': settings.applicationKey,
+              'CONSUMERKEY': settings.consumerKey,
+              'Authorization': `Bearer ${loginData.token}`,
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+              uniQref: chatId
+            })
+          });
+
+          if (detailsResponse.ok) {
+            const transcriptData = await detailsResponse.json();
+            transcripts[`SynthetixTranscript_${chatId}.json`] = JSON.stringify(transcriptData, null, 2);
+            successCount++;
+            await log(`Retrieved transcript: ${chatId}`); 
+          } else {
+            const errorText = await detailsResponse.text();
+            console.error(`Transcript details API error for ${chatId}:`, detailsResponse.status, errorText);
+            await log(`Error fetching details for transcript ${chatId} (${detailsResponse.status}).`);
+            failCount++;
+          }
+        } catch (error) {
+          console.error(`Error processing transcript ${chatId}:`, error);
+          await log(`Error processing transcript ${chatId}: ${error.message}`);
+          failCount++;
+        }
+      }
+      
+      if (successCount === 0) {
+        await log('Failed to retrieve any transcripts. Nothing to download.');
+        return;
+      }
+      
+      await log(`Successfully retrieved ${successCount} transcripts. Creating ZIP file...`);
+      
+      try {
+       
+        // Create a new zip file
+        const zip = new JSZip();
+        
+        // Add each transcript to the zip
+        for (const [filename, content] of Object.entries(transcripts)) {
+          zip.file(filename, content);
+        }
+        
+        // Generate the zip file
+        const zipContent = await zip.generateAsync({ type: 'blob' });
+        
+        // Download the zip file
+        const zipUrl = URL.createObjectURL(zipContent);
+        const dateStr = new Date().toISOString().split('T')[0];
+        const zipFilename = `${subfolder}SynthetixTranscripts_${dateStr}.zip`;
+        
+        await chrome.downloads.download({
+          url: zipUrl,
+          filename: zipFilename,
+          saveAs: false
+        });
+        
+        await log(`Downloaded ZIP file with ${successCount} transcripts: ${zipFilename}`);
+        return;
+      } catch (error) {
+        console.error('Error creating ZIP file:', error);
+        await log(`Error creating ZIP file: ${error.message}`);
+        await log('Falling back to individual file downloads...');
+        // Fall through to individual downloads
+      }
+    }
+
+    // If not downloading as ZIP or if ZIP failed, download individual files
     let successCount = 0;
     let failCount = 0;
     for (const chatId of chatIds) {
@@ -297,25 +380,25 @@ async function downloadTranscripts() {
           try {
               await chrome.downloads.download({
                 url: url,
-                filename: filename, // Use constructed filename
+                filename: filename,
                 saveAs: false
               });
               successCount++;
-              await log(`Downloaded transcript: ${filename}`); // Use await log
+              await log(`Downloaded transcript: ${filename}`);
           } catch (downloadError) {
               console.error(`Chrome download API error for ${chatId}:`, downloadError);
-              await log(`Error initiating download for transcript ${chatId} to ${filename}: ${downloadError.message}`); // Use await log
+              await log(`Error initiating download for transcript ${chatId} to ${filename}: ${downloadError.message}`);
               failCount++;
           }
         } else {
             const errorText = await detailsResponse.text();
             console.error(`Transcript details API error for ${chatId}:`, detailsResponse.status, errorText);
-            await log(`Error fetching details for transcript ${chatId} (${detailsResponse.status}).`); // Use await log
+            await log(`Error fetching details for transcript ${chatId} (${detailsResponse.status}).`);
             failCount++;
         }
       } catch (error) {
         console.error(`Error processing transcript ${chatId}:`, error);
-        await log(`Error processing transcript ${chatId}: ${error.message}`); // Use await log
+        await log(`Error processing transcript ${chatId}: ${error.message}`);
         failCount++;
       }
     }

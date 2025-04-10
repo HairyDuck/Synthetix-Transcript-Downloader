@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Synthetix Transcript Downloader (Unofficial)",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Download chat transcripts from Synthetix",
   "permissions": [
     "storage",
@@ -28,7 +28,7 @@
   },
   "options_page": "settings.html",
   "web_accessible_resources": [{
-    "resources": ["instructions.html", "log.html", "icons/*", "images/*"],
+    "resources": ["instructions.html", "log.html", "icons/*", "images/*", "lib/*"],
     "matches": ["<all_urls>"]
   }]
 } 

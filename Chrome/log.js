@@ -1,6 +1,6 @@
 // log.js - Script for the full log page
 
-// Helper function to send message to background script (same as popup.js)
+// Helper function to send message to background script
 async function sendMessageToBackground(messagePayload) {
   try {
     const response = await chrome.runtime.sendMessage(messagePayload);
@@ -8,7 +8,7 @@ async function sendMessageToBackground(messagePayload) {
       console.error('Error sending message:', chrome.runtime.lastError.message, messagePayload);
       return { error: chrome.runtime.lastError.message };
     }
-    console.log('Response from background:', response); // Debugging
+    console.log('Response from background:', response);
     return response;
   } catch (error) {
     console.error('Failed to send message:', error, messagePayload);
@@ -21,19 +21,16 @@ function displayFullLog(logEntries) {
   const logDiv = document.getElementById('fullLog');
   if (logDiv) {
     if (logEntries && logEntries.length > 0) {
-        // Using textContent handles potential HTML in messages safely
         logDiv.textContent = logEntries.join('\n'); 
     } else {
         logDiv.textContent = 'Log is currently empty.';
     }
-    // Scroll to the bottom (optional, might be annoying for full log)
-    // logDiv.scrollTop = logDiv.scrollHeight;
   } else {
     console.error("Could not find 'fullLog' div.");
   }
 }
 
-// --- Initialize Page ---
+// Initialize Page
 document.addEventListener('DOMContentLoaded', async () => {
   const clearLogButton = document.getElementById('clearLogButton');
 
@@ -52,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (confirmClear) {
           const clearResponse = await sendMessageToBackground({ action: "clearLog" });
           if (clearResponse && clearResponse.success) {
-              displayFullLog([]); // Clear the display immediately
+              displayFullLog([]);
           } else {
               alert("Failed to clear log. See console for details.");
           }
@@ -62,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.error("Could not find 'clearLogButton'");
   }
 
-  // Listen for messages from background (e.g., if cleared from elsewhere)
+  // Listen for messages from background
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.action === "logCleared") {
           console.log("Received logCleared message, updating display.");

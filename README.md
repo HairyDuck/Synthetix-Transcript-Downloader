@@ -17,6 +17,7 @@ This Chrome extension enables users with valid Synthetix API credentials (**Serv
 
 *   Download transcripts by date range.
 *   Select Synthetix API environment (Production, Staging, Sandbox).
+*   Option to download all transcripts as a single ZIP file.
 *   Secure local storage for API credentials.
 *   Test connection functionality within settings.
 *   Optional download to a `SynthetixTranscripts` subfolder.

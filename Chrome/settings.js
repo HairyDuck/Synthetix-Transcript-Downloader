@@ -3,7 +3,10 @@ const defaultSettings = {
   applicationKey: '',
   consumerKey: '',
   username: '',
-  password: ''
+  password: '',
+  apiEnvironment: 'production',
+  saveToSubfolder: false,
+  downloadAsZip: true
 };
 
 // Initialize the settings page
@@ -32,7 +35,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     'consumerKey',
     'username',
     'password',
-    'saveToSubfolder'
+    'saveToSubfolder',
+    'downloadAsZip'
   ]);
 
   // Populate form with saved settings
@@ -54,9 +58,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
   if (settings.password) {
     passwordInput.value = settings.password;
-    passwordInput.type = 'password'; // Ensure it's obfuscated
+    passwordInput.type = 'password';
   }
   saveToSubfolderCheckbox.checked = !!settings.saveToSubfolder;
+  
+  const downloadAsZipCheckbox = document.getElementById('downloadAsZip');
+  if (downloadAsZipCheckbox) {
+    downloadAsZipCheckbox.checked = !!settings.downloadAsZip;
+  }
 
   // Toggle password visibility
   if (togglePasswordButton && passwordInput) {
@@ -83,7 +92,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         consumerKey: consumerKeyInput.value,
         username: usernameInput.value,
         password: passwordInput.value,
-        saveToSubfolder: saveToSubfolderCheckbox.checked
+        saveToSubfolder: saveToSubfolderCheckbox.checked,
+        downloadAsZip: downloadAsZipCheckbox.checked
       });
 
       // Ensure passwords are obfuscated after saving
@@ -148,14 +158,14 @@ document.addEventListener('DOMContentLoaded', async () => {
           })
         });
 
-        // Try to parse JSON regardless of response.ok to get potential error details
+        const message = [];
+        
+        // Try to parse JSON regardless of response status
         let responseData = {};
         try {
           responseData = await response.json();
         } catch (jsonError) {
-          // Handle cases where response is not JSON (e.g., network error page)
           console.error("Failed to parse JSON response:", jsonError);
-          // Use status text if available and response not ok, otherwise generic error
           throw new Error(response.ok ? "Received non-JSON response." : 
                             `Request failed: ${response.status} ${response.statusText}`);
         }
@@ -164,20 +174,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (response.ok && responseData.authorised === true) {
           showStatus(`Connection successful to ${currentEnv} environment!`, 'success');
         } else {
-          // Construct detailed error message
           let detail = `(${response.status})`;
           if (responseData.Error) detail += ` Code ${responseData.Error}`; 
           if (responseData.Description) detail += `: ${responseData.Description}`; 
           if (responseData.Level) detail += ` [${responseData.Level}]`;
           if (responseData.extraInfo) detail += ` (${responseData.extraInfo})`;
 
-          // Fallback message if no specific details found
           const errorMessage = detail.length > 5 ? detail : 
                               (typeof responseData.authorised === 'string' ? responseData.authorised : 
                               'Invalid credentials or service account not authorized.');
                               
           showStatus(`Connection failed: ${errorMessage}`, 'error');
-          console.error('Test Connection Response Data:', responseData); // Log full response for debugging
+          console.error('Test Connection Response Data:', responseData);
         }
 
       } catch (error) {

@@ -1,6 +1,6 @@
 // log.js - Script for the full log page (Firefox)
 
-// Helper function (uses browser.runtime)
+// Helper function
 async function sendMessageToBackground(messagePayload) {
   try {
     const response = await browser.runtime.sendMessage(messagePayload);
@@ -17,23 +17,20 @@ function displayFullLog(logEntries) {
   const logDiv = document.getElementById('fullLog');
   if (logDiv) {
     if (logEntries && logEntries.length > 0) {
-        // Using textContent handles potential HTML in messages safely
         logDiv.textContent = logEntries.join('\n'); 
     } else {
         logDiv.textContent = 'Log is currently empty.';
     }
-    // Scroll to the bottom (optional, might be annoying for full log)
-    // logDiv.scrollTop = logDiv.scrollHeight;
   } else {
     console.error("Could not find 'fullLog' div.");
   }
 }
 
-// --- Initialize Page ---
+// Initialize Page
 document.addEventListener('DOMContentLoaded', async () => {
   const clearLogButton = document.getElementById('clearLogButton');
 
-  // Load the full log initially (uses browser.runtime)
+  // Load the full log initially
   const response = await sendMessageToBackground({ action: "getFullLog" });
   if (response && response.fullLog) {
     displayFullLog(response.fullLog);
@@ -41,14 +38,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     displayFullLog(["Error loading log from background service."]);
   }
 
-  // Add listener for the clear button (uses browser.runtime)
+  // Add listener for the clear button
   if (clearLogButton) {
     clearLogButton.addEventListener('click', async () => {
       const confirmClear = confirm("Are you sure you want to clear the entire session log?");
       if (confirmClear) {
           const clearResponse = await sendMessageToBackground({ action: "clearLog" });
           if (clearResponse && clearResponse.success) {
-              displayFullLog([]); // Clear the display immediately
+              displayFullLog([]);
           } else {
               alert("Failed to clear log. See console for details.");
           }
@@ -58,13 +55,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.error("Could not find 'clearLogButton'");
   }
 
-  // Listen for messages from background (uses browser.runtime)
+  // Listen for messages from background
   browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.action === "logCleared") {
           console.log("Received logCleared message, updating display.");
           displayFullLog([]);
       }
-      // It's good practice to return false or undefined if not sending an async response
-      // from this listener, though in this case we aren't.
   });
 }); 

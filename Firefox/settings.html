@@ -63,7 +63,6 @@
       font-size: 1.1em;
     }
     .settings-form {
-      /* Removed background/border, container handles it */
       padding: 0;
       box-shadow: none;
     }
@@ -72,7 +71,7 @@
       background-color: #d4edda;
       border-left: 4px solid #28a745;
       padding: 15px;
-      margin: 0 0 25px 0; /* Position before form */
+      margin: 0 0 25px 0;
       border-radius: 4px;
       font-size: 0.95em;
     }
@@ -317,6 +316,10 @@
           <div class="checkbox-group">
               <input type="checkbox" id="saveToSubfolder">
               <label for="saveToSubfolder">Save transcripts to a 'SynthetixTranscripts' subfolder in Downloads</label>
+          </div>
+          <div class="checkbox-group">
+              <input type="checkbox" id="downloadAsZip">
+              <label for="downloadAsZip">Download all transcripts as a single ZIP file</label>
           </div>
       </div>
       <div class="button-group">

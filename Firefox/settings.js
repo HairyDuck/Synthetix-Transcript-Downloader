@@ -1,9 +1,12 @@
-// Default settings
+// Default settings for Firefox version
 const defaultSettings = {
   applicationKey: '',
   consumerKey: '',
   username: '',
-  password: ''
+  password: '',
+  apiEnvironment: 'production',
+  saveToSubfolder: false,
+  downloadAsZip: true
 };
 
 // Helper function (uses browser.runtime)
@@ -44,7 +47,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     'consumerKey',
     'username',
     'password',
-    'saveToSubfolder'
+    'saveToSubfolder',
+    'downloadAsZip'
   ]);
 
   // Populate form with saved settings
@@ -66,9 +70,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
   if (settings.password) {
     passwordInput.value = settings.password;
-    passwordInput.type = 'password'; // Ensure it's obfuscated
+    passwordInput.type = 'password';
   }
   saveToSubfolderCheckbox.checked = !!settings.saveToSubfolder;
+  
+  const downloadAsZipCheckbox = document.getElementById('downloadAsZip');
+  if (downloadAsZipCheckbox) {
+    downloadAsZipCheckbox.checked = !!settings.downloadAsZip;
+  }
 
   // Toggle password visibility
   if (togglePasswordButton && passwordInput) {
@@ -95,7 +104,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           consumerKey: consumerKeyInput.value,
           username: usernameInput.value,
           password: passwordInput.value,
-          saveToSubfolder: saveToSubfolderCheckbox.checked
+          saveToSubfolder: saveToSubfolderCheckbox.checked,
+          downloadAsZip: downloadAsZipCheckbox.checked
         });
 
         // Ensure passwords are obfuscated after saving
@@ -209,19 +219,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Handle Back to Extension link (uses browser.tabs)
   if (backToExtensionLink) {
-    backToExtensionLink.addEventListener('click', async (event) => { // Make async
-      event.preventDefault();
-      try {
-        // Get current tab using browser.tabs.getCurrent() which returns a Promise
-        const tab = await browser.tabs.getCurrent();
-        if (tab && tab.id) {
-          await browser.tabs.remove(tab.id);
-        }
-      } catch(e) {
-        console.error("Error closing settings tab:", e);
-        // Fallback or alternative needed if getCurrent fails (e.g., maybe just go back?)
-        // window.history.back(); // Less ideal
-      }
+    backToExtensionLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.close();
     });
   }
 
