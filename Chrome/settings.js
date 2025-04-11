@@ -12,7 +12,7 @@ const defaultSettings = {
 // Initialize the settings page
 document.addEventListener('DOMContentLoaded', async () => {
   // Get DOM elements
-  const environmentSelect = document.getElementById('apiEnvironment');
+  const environmentSelect = document.getElementById('environment');
   const applicationKeyInput = document.getElementById('applicationKey');
   const consumerKeyInput = document.getElementById('consumerKey');
   const usernameInput = document.getElementById('username');
@@ -73,6 +73,26 @@ document.addEventListener('DOMContentLoaded', async () => {
       const type = passwordInput.type === 'password' ? 'text' : 'password';
       passwordInput.type = type;
       togglePasswordButton.textContent = type === 'password' ? 'Show' : 'Hide';
+    });
+  }
+
+  // Toggle Application Key visibility
+  const toggleAppKeyButton = document.getElementById('toggleAppKey');
+  if (toggleAppKeyButton && applicationKeyInput) {
+    toggleAppKeyButton.addEventListener('click', () => {
+      const type = applicationKeyInput.type === 'password' ? 'text' : 'password';
+      applicationKeyInput.type = type;
+      toggleAppKeyButton.textContent = type === 'password' ? 'Show' : 'Hide';
+    });
+  }
+
+  // Toggle Consumer Key visibility
+  const toggleConsumerKeyButton = document.getElementById('toggleConsumerKey');
+  if (toggleConsumerKeyButton && consumerKeyInput) {
+    toggleConsumerKeyButton.addEventListener('click', () => {
+      const type = consumerKeyInput.type === 'password' ? 'text' : 'password';
+      consumerKeyInput.type = type;
+      toggleConsumerKeyButton.textContent = type === 'password' ? 'Show' : 'Hide';
     });
   }
 
@@ -174,17 +194,33 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (response.ok && responseData.authorised === true) {
           showStatus(`Connection successful to ${currentEnv} environment!`, 'success');
         } else {
-          let detail = `(${response.status})`;
-          if (responseData.Error) detail += ` Code ${responseData.Error}`; 
-          if (responseData.Description) detail += `: ${responseData.Description}`; 
-          if (responseData.Level) detail += ` [${responseData.Level}]`;
-          if (responseData.extraInfo) detail += ` (${responseData.extraInfo})`;
+          // Construct detailed error message
+          let detail = '';
+          if (responseData.Description) detail += responseData.Description;
+          // Only show extraInfo for BAD ORIGIN IP errors
+          if (responseData.extraInfo && responseData.Description === 'BAD ORIGIN IP') {
+            const extraInfo = typeof responseData.extraInfo === 'object' 
+              ? JSON.stringify(responseData.extraInfo) 
+              : responseData.extraInfo;
+            detail += ` (${extraInfo})`;
+          }
 
-          const errorMessage = detail.length > 5 ? detail : 
+          // Add specific hints for common errors
+          let hint = '';
+          if (responseData.Description === 'BAD ORIGIN IP') {
+            hint = '\n\nYour IP address is not whitelisted for API access. Please contact your Synthetix Account Manager to whitelist your IP address.';
+          } else if (responseData.Description === 'NOT AUTHORISED' && responseData.Error === 204) {
+            hint = '\n\nYour Application Key or Consumer Key appears to be incorrect. Please verify these credentials in your settings.';
+          } else if (responseData.authorised === 'Invalid login details') {
+            hint = '\n\nYour username or password is incorrect. Please verify your login credentials.';
+          }
+
+          // Fallback message if no specific details found
+          const errorMessage = detail.length > 0 ? detail : 
                               (typeof responseData.authorised === 'string' ? responseData.authorised : 
                               'Invalid credentials or service account not authorized.');
                               
-          showStatus(`Connection failed: ${errorMessage}`, 'error');
+          showStatus(`Connection failed: ${errorMessage}${hint}`, 'error');
           console.error('Test Connection Response Data:', responseData);
         }
 

@@ -145,10 +145,12 @@
       opacity: 1;
     }
     /* Password toggle */
-    .password-container {
+    .password-container,
+    .input-with-toggle {
       position: relative;
     }
-    .toggle-password {
+    .toggle-password,
+    .toggle-button {
       position: absolute;
       right: 12px;
       top: 50%;
@@ -160,7 +162,8 @@
       font-size: 0.9em;
       padding: 5px;
     }
-    .toggle-password:hover {
+    .toggle-password:hover,
+    .toggle-button:hover {
       color: #007bff;
     }
     /* Button styling */
@@ -285,30 +288,36 @@
 
     <div class="settings-form">
       <div class="form-group">
-        <label for="apiEnvironment">API Environment <span class="tooltip">ℹ️<span class="tooltiptext">Select the Synthetix API environment. New keys usually only work with Sandbox initially. Check with your Account Manager if unsure.</span></span></label>
-        <select id="apiEnvironment">
+        <label for="environment">Environment: <span class="tooltip">ℹ️<span class="tooltiptext">Select the Synthetix environment you want to connect to. Production is for live data, Staging for testing, and Sandbox for development work.</span></span></label>
+        <select id="environment" name="environment" required>
           <option value="production">Production (api.synthetix.com)</option>
           <option value="staging">Staging (apistaging.synthetix.com)</option>
           <option value="sandbox">Sandbox (apisandbox.synthetix.com)</option>
         </select>
       </div>
       <div class="form-group">
-        <label for="applicationKey">Application Key <span class="tooltip">ℹ️<span class="tooltiptext">Your unique Application Key from Synthetix.</span></span></label>
-        <input type="password" id="applicationKey" placeholder="Enter Application Key">
+        <label for="applicationKey">Application Key: <span class="tooltip">ℹ️<span class="tooltiptext">Your unique Application Key from Synthetix API portal.</span></span></label>
+        <div class="input-with-toggle">
+          <input type="password" id="applicationKey" name="applicationKey" placeholder="Enter Application Key" required>
+          <button type="button" id="toggleAppKey" class="toggle-button">Show</button>
+        </div>
       </div>
       <div class="form-group">
-        <label for="consumerKey">Consumer Key <span class="tooltip">ℹ️<span class="tooltiptext">Your unique Consumer Key from Synthetix.</span></span></label>
-        <input type="password" id="consumerKey" placeholder="Enter Consumer Key">
+        <label for="consumerKey">Consumer Key: <span class="tooltip">ℹ️<span class="tooltiptext">Your unique Consumer Key from Synthetix API portal.</span></span></label>
+        <div class="input-with-toggle">
+          <input type="password" id="consumerKey" name="consumerKey" placeholder="Enter Consumer Key" required>
+          <button type="button" id="toggleConsumerKey" class="toggle-button">Show</button>
+        </div>
       </div>
       <div class="form-group">
-        <label for="username">Service Account Username <span class="tooltip">ℹ️<span class="tooltiptext">Username for your Synthetix service account.</span></span></label>
-        <input type="text" id="username" placeholder="Enter service account username">
+        <label for="username">Service Account Username: <span class="tooltip">ℹ️<span class="tooltiptext">Your Synthetix service account username. This is different from your regular Synthetix login.</span></span></label>
+        <input type="text" id="username" name="username" placeholder="Enter service account username" required>
       </div>
       <div class="form-group">
-        <label for="password">Service Account Password <span class="tooltip">ℹ️<span class="tooltiptext">Password for your Synthetix service account.</span></span></label>
-        <div class="password-container">
-          <input type="password" id="password" placeholder="Enter service account password">
-          <button type="button" class="toggle-password" id="togglePassword">Show</button>
+        <label for="password">Service Account Password: <span class="tooltip">ℹ️<span class="tooltiptext">Your Synthetix service account password. This is different from your regular Synthetix password.</span></span></label>
+        <div class="input-with-toggle">
+          <input type="password" id="password" name="password" placeholder="Enter service account password" required>
+          <button type="button" id="togglePassword" class="toggle-button">Show</button>
         </div>
       </div>
       <div class="form-group">
